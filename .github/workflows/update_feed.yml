@@ -1,0 +1,49 @@
+import urllib.request
+import xml.etree.ElementTree as ET
+import json
+import re
+
+# Replace with your actual Letterboxd RSS URL
+RSS_URL = "https://letterboxd.com/YOUR_USERNAME/rss/"
+
+def parse_rating(title):
+    # Extracts "★★★★" or "★★★½" from the end of the title
+    match = re.search(r'([★☆½]+)$', title)
+    return match.group(1) if match else None
+
+def clean_title(title):
+    # Removes the rating from the title for a cleaner "Editorial" look
+    return re.sub(r' - [★☆½]+$', '', title).strip()
+
+try:
+    with urllib.request.urlopen(RSS_URL) as response:
+        xml_data = response.read()
+    
+    root = ET.fromstring(xml_data)
+    items = []
+
+    for item in root.findall('./channel/item')[:5]: # Limit to 5 for the "Elsewhere" window
+        raw_title = item.find('title').text
+        link = item.find('link').text
+        
+        # Letterboxd RSS titles usually follow: "Film Name, Year - ★★★★"
+        # We can split to get the year more reliably
+        title_parts = raw_title.split(', ')
+        name = clean_title(title_parts[0])
+        year = title_parts[1].split(' - ')[0] if len(title_parts) > 1 else ""
+        rating = parse_rating(raw_title)
+
+        items.append({
+            "title": name,
+            "year": year,
+            "rating": rating,
+            "link": link
+        })
+
+    with open('feed.json', 'w') as f:
+        json.dump(items, f, indent=2)
+
+except Exception as e:
+    print(f"Error: {e}")
+    # We don't exit with error to avoid failing the Action; 
+    # the existing feed.json stays as a graceful fallback.
