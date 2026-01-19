@@ -2,9 +2,10 @@ import urllib.request
 import xml.etree.ElementTree as ET
 import json
 import re
+import os
 
-# 1. Configuration - Using your Letterboxd handle
-RSS_URL = "https://letterboxd.com/jonngoldman/rss/"
+# 1. Configuration - Updated to your specific Letterboxd handle
+RSS_URL = "https://letterboxd.com/jongoldman/rss/"
 
 def parse_rating(title):
     match = re.search(r'([★☆½]+)$', title)
@@ -14,12 +15,12 @@ def clean_title(title):
     return re.sub(r' - [★☆½]+$', '', title).strip()
 
 try:
-    # 2. Fetch
     print(f"Fetching RSS from {RSS_URL}...")
-    with urllib.request.urlopen(RSS_URL) as response:
+    # Use a User-Agent to prevent Letterboxd from blocking the request
+    req = urllib.request.Request(RSS_URL, headers={'User-Agent': 'Mozilla/5.0'})
+    with urllib.request.urlopen(req) as response:
         xml_data = response.read()
     
-    # 3. Parse
     root = ET.fromstring(xml_data)
     items = []
 
@@ -27,6 +28,7 @@ try:
         raw_title = item.find('title').text
         link = item.find('link').text
         
+        # Improved parsing for Title, Year - Rating
         title_parts = raw_title.split(', ')
         name = clean_title(title_parts[0])
         year = title_parts[1].split(' - ')[0] if len(title_parts) > 1 else ""
@@ -39,7 +41,7 @@ try:
             "link": link
         })
 
-    # 4. Save - We use a simple filename here to match the Action's expectations
+    # Save to the root directory explicitly
     with open('feed.json', 'w') as f:
         json.dump(items, f, indent=2)
     
@@ -47,5 +49,4 @@ try:
 
 except Exception as e:
     print(f"Error occurred: {e}")
-    # We exit with an error so the GitHub Action knows the 'Chef' failed
     exit(1)
