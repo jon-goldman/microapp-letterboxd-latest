@@ -5,8 +5,8 @@
 const USERNAME = "jongoldman";
 const RSS_URL = `https://letterboxd.com/${USERNAME}/rss/`;
 
-// rss2json endpoint + docs: https://api.rss2json.com/v1/api.json?rss_url=...
-const RSS2JSON = "https://api.rss2json.com/v1/api.json";
+// Alternative RSS -> JSON that doesn't require an API key:
+const FEED2JSON = "https://www.toptal.com/developers/feed2json/convert?url=";
 
 const MAX_ITEMS = 5;
 
@@ -95,28 +95,38 @@ function setFilter(next) {
 async function loadFeed() {
   els.status.textContent = "Loading…";
 
-  const url = `${RSS2JSON}?rss_url=${encodeURIComponent(RSS_URL)}&count=${MAX_ITEMS}`;
+  const url = `${FEED2JSON}${encodeURIComponent(RSS_URL)}`;
 
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) throw new Error(`Feed request failed (${res.status})`);
 
   const json = await res.json();
-  if (json.status !== "ok") throw new Error(json.message || "Feed error");
 
-  const items = (json.items || []).map((it) => {
+  // feed2json returns JSONFeed-ish structure: { items: [...] }
+  const items = (json.items || []).slice(0, MAX_ITEMS).map((it) => {
     const rawTitle = it.title || "";
     const { title, year } = normalizeTitle(rawTitle);
     const rating = extractRating(rawTitle);
 
-    // Heuristic “kind”: many entries are diary entries; some are reviews/lists.
-    // We keep it simple + humane.
-    const kind = (it.categories && it.categories.length)
-      ? it.categories[0]
-      : "Watched";
+    const date = it.date_published
+      ? new Date(it.date_published).toLocaleDateString(undefined, {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+      : "";
 
-    const date = it.pubDate ? new Date(it.pubDate).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) : "";
+    // Try to infer kind from tags if present; otherwise keep it simple
+    const kind = (it.tags && it.tags.length) ? it.tags[0] : "Watched";
 
-    return { title, year, rating, kind, date, link: it.link || "" };
+    return {
+      title,
+      year,
+      rating,
+      kind,
+      date,
+      link: it.url || it.external_url || "",
+    };
   });
 
   DATA = items;
