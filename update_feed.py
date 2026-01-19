@@ -1,27 +1,44 @@
-name: Update Letterboxd Feed
-on:
-  schedule:
-    - cron: '0 */6 * * *' # Every 6 hours
-  workflow_dispatch: # Allows manual trigger
+import urllib.request
+import xml.etree.ElementTree as ET
+import json
+import re
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+# IMPORTANT: Change 'jonathangoldman' to your actual Letterboxd username
+RSS_URL = "https://letterboxd.com/jonathangoldman/rss/"
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+def parse_rating(title):
+    match = re.search(r'([★☆½]+)$', title)
+    return match.group(1) if match else None
 
-      - name: Fetch and Process RSS
-        run: python update_feed.py
+def clean_title(title):
+    return re.sub(r' - [★☆½]+$', '', title).strip()
 
-      - name: Commit and Push if changed
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add feed.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Letterboxd feed" && git push)
+try:
+    with urllib.request.urlopen(RSS_URL) as response:
+        xml_data = response.read()
+    
+    root = ET.fromstring(xml_data)
+    items = []
+
+    for item in root.findall('./channel/item')[:5]:
+        raw_title = item.find('title').text
+        link = item.find('link').text
+        
+        title_parts = raw_title.split(', ')
+        name = clean_title(title_parts[0])
+        year = title_parts[1].split(' - ')[0] if len(title_parts) > 1 else ""
+        rating = parse_rating(raw_title)
+
+        items.append({
+            "title": name,
+            "year": year,
+            "rating": rating,
+            "link": link
+        })
+
+    with open('feed.json', 'w') as f:
+        json.dump(items, f, indent=2)
+    print("Successfully wrote feed.json")
+
+except Exception as e:
+    print(f"Error: {e}")
