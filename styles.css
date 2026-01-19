@@ -1,0 +1,99 @@
+:root{
+  --bg:#f7f8fb;
+  --card:#ffffff;
+  --muted:#666;
+  --accent:#2563eb;
+  --danger:#e11d48;
+  --radius:10px;
+  --max-width:860px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  margin:0;
+  background:linear-gradient(180deg,var(--bg),#fff 60%);
+  color:#0f172a;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:24px;
+  display:flex;
+  justify-content:center;
+}
+
+.container{
+  width:100%;
+  max-width:var(--max-width);
+}
+
+.site-header{margin-bottom:18px;text-align:left}
+.site-header h1{margin:0;font-size:1.5rem}
+.tagline{margin:6px 0 0;color:var(--muted);font-size:0.95rem}
+
+.widget{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:16px;
+  box-shadow:0 6px 18px rgba(16,24,40,0.06);
+  margin-bottom:18px;
+}
+
+.note-form{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.note-input{
+  flex:1;
+  padding:10px 12px;
+  border:1px solid #e6e9ef;
+  border-radius:8px;
+  font-size:1rem;
+  outline:none;
+}
+
+.note-input:focus{box-shadow:0 0 0 4px rgba(37,99,235,0.08);border-color:var(--accent)}
+
+.btn{
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.btn:active{transform:translateY(1px)}
+.btn.secondary{background:#eef2ff;color:var(--accent);border:1px solid rgba(37,99,235,0.08)}
+
+.notes-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.note-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 12px;
+  border-radius:8px;
+  background:#fbfdff;
+  border:1px solid #f1f5f9;
+  font-size:0.98rem;
+}
+
+.note-actions{display:flex;gap:8px;align-items:center}
+
+.icon-btn{
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  cursor:pointer;
+  padding:6px;
+  border-radius:6px;
+}
+
+.icon-btn:hover{background:rgba(16,24,40,0.03);color:var(--accent)}
+
+.docs{font-size:0.95rem;color:var(--muted);padding:12px 0}
+.site-footer{text-align:center;margin-top:12px;color:var(--muted);font-size:0.9rem}

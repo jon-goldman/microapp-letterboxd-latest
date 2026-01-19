@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple Notes Widget</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Simple Notes</h1>
+    <p class="tagline">A tiny client-side notes widget — persists to localStorage.</p>
+  </header>
+
+  <main class="container">
+    <section id="app" class="widget" aria-label="Notes widget">
+      <form id="note-form" class="note-form" aria-label="Add note form">
+        <input id="note-input" class="note-input" type="text" placeholder="Write a note..." aria-label="Note text">
+        <button id="add-btn" class="btn" type="button">Add</button>
+      </form>
+
+      <ul id="notes-list" class="notes-list" aria-live="polite"></ul>
+    </section>
+
+    <section class="docs">
+      <h2>Embedding</h2>
+      <p>To embed the widget on another site, include <code>embed.js</code> and call <code>createNotesWidget(selector, options)</code>. See the README for details.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© Simple Notes Widget</small>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+  <script src="embed.js" defer></script>
+</body>
+</html>
