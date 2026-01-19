@@ -1,38 +1,48 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Letterboxd — Latest</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="site-header">
-    <h1>Simple Notes</h1>
-    <p class="tagline">A tiny client-side notes widget — persists to localStorage.</p>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Letterboxd — Latest</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="wrap" id="app" aria-live="polite">
+      <header class="header">
+        <p class="kicker">Experiment</p>
+        <h1 class="title">Letterboxd</h1>
+        <p class="subtitle">Latest activity (auto-updating).</p>
+      </header>
 
-  <main class="container">
-    <section id="app" class="widget" aria-label="Notes widget">
-      <form id="note-form" class="note-form" aria-label="Add note form">
-        <input id="note-input" class="note-input" type="text" placeholder="Write a note..." aria-label="Note text">
-        <button id="add-btn" class="btn" type="button">Add</button>
-      </form>
+      <section class="panel" aria-label="Controls">
+        <label class="label" for="q">Search</label>
+        <input id="q" class="input" type="search" placeholder="Try: perfect, 2024, ★★★…" />
 
-      <ul id="notes-list" class="notes-list" aria-live="polite"></ul>
-    </section>
+        <div class="row" role="group" aria-label="Filter">
+          <button class="pill is-active" data-filter="all" type="button">All</button>
+          <button class="pill" data-filter="project" type="button">Watched</button>
+          <button class="pill" data-filter="note" type="button">Reviews</button>
+        </div>
+      </section>
 
-    <section class="docs">
-      <h2>Embedding</h2>
-      <p>To embed the widget on another site, include <code>embed.js</code> and call <code>createNotesWidget(selector, options)</code>. See the README for details.</p>
-    </section>
-  </main>
+      <section class="panel" aria-label="Results">
+        <div id="status" class="status">Loading…</div>
+        <ol id="results" class="results" hidden></ol>
+        <div id="empty" class="empty" hidden>No matches. Try a different word.</div>
+      </section>
 
-  <footer class="site-footer">
-    <small>© Simple Notes Widget</small>
-  </footer>
+      <footer class="footer">
+        <a class="link" href="https://letterboxd.com/jongoldman/" target="_blank" rel="noopener noreferrer">
+          Open on Letterboxd
+        </a>
+      </footer>
 
-  <script type="module" src="app.js"></script>
-  <script src="embed.js" defer></script>
-</body>
+      <noscript>
+        <div class="panel">This experiment needs JavaScript.</div>
+      </noscript>
+    </main>
+
+    <script src="./embed.js"></script>
+    <script src="./app.js"></script>
+  </body>
 </html>
