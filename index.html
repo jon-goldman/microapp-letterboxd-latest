@@ -3,46 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Letterboxd — Latest</title>
+    <title>Letterboxd — Elsewhere</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="wrap" id="app" aria-live="polite">
+    <main class="wrap" id="app">
       <header class="header">
-        <p class="kicker">Experiment</p>
-        <h1 class="title">Letterboxd</h1>
-        <p class="subtitle">Latest activity (auto-updating).</p>
+        <h1 class="title">Elsewhere</h1>
+        <p id="status" class="status">Loading…</p>
       </header>
 
       <section class="panel" aria-label="Controls">
-        <label class="label" for="q">Search</label>
-        <input id="q" class="input" type="search" placeholder="Try: perfect, 2024, ★★★…" />
-
-        <div class="row" role="group" aria-label="Filter">
-          <button class="pill is-active" data-filter="all" type="button">All</button>
-          <button class="pill" data-filter="project" type="button">Watched</button>
-          <button class="pill" data-filter="note" type="button">Reviews</button>
+        <input id="q" class="input" type="search" placeholder="Search films…" />
+        <div class="row" style="display:none"> <button class="pill is-active" data-filter="all">All</button>
         </div>
       </section>
 
-      <section class="panel" aria-label="Results">
-        <div id="status" class="status">Loading…</div>
+      <section class="panel">
         <ol id="results" class="results" hidden></ol>
-        <div id="empty" class="empty" hidden>No matches. Try a different word.</div>
+        <div id="empty" class="empty" hidden>No films found.</div>
       </section>
 
       <footer class="footer">
-        <a class="link" href="https://letterboxd.com/jongoldman/" target="_blank" rel="noopener noreferrer">
-          Open on Letterboxd
-        </a>
+        <a class="link-muted" href="https://letterboxd.com/jongoldman/" target="_blank">View Profile →</a>
       </footer>
-
-      <noscript>
-        <div class="panel">This experiment needs JavaScript.</div>
-      </noscript>
     </main>
 
-    <script src="./embed.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
