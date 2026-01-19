@@ -1,4 +1,4 @@
-# Simple Notes Widget
+# Letterboxd — Latest
 
 A tiny client-side notes widget that persists to `localStorage`. This repo includes:
 
