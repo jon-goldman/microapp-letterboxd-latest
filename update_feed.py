@@ -4,7 +4,7 @@ import json
 import re
 
 # 1. Configuration - Using your Letterboxd handle
-RSS_URL = "https://letterboxd.com/jonathangoldman/rss/"
+RSS_URL = "https://letterboxd.com/jonngoldman/rss/"
 
 def parse_rating(title):
     match = re.search(r'([★☆½]+)$', title)
