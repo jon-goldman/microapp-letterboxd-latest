@@ -4,7 +4,7 @@ import json
 import re
 
 # Replace with your actual Letterboxd RSS URL
-RSS_URL = "https://letterboxd.com/YOUR_USERNAME/rss/"
+RSS_URL = "https://letterboxd.com/jongoldman/rss/"
 
 def parse_rating(title):
     # Extracts "★★★★" or "★★★½" from the end of the title
