@@ -1,49 +1,27 @@
-import urllib.request
-import xml.etree.ElementTree as ET
-import json
-import re
+name: Update Letterboxd Feed
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
 
-# Replace with your actual Letterboxd RSS URL
-RSS_URL = "https://letterboxd.com/jongoldman/rss/"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-def parse_rating(title):
-    # Extracts "★★★★" or "★★★½" from the end of the title
-    match = re.search(r'([★☆½]+)$', title)
-    return match.group(1) if match else None
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-def clean_title(title):
-    # Removes the rating from the title for a cleaner "Editorial" look
-    return re.sub(r' - [★☆½]+$', '', title).strip()
+      - name: Fetch and Process RSS
+        run: python update_feed.py
 
-try:
-    with urllib.request.urlopen(RSS_URL) as response:
-        xml_data = response.read()
-    
-    root = ET.fromstring(xml_data)
-    items = []
-
-    for item in root.findall('./channel/item')[:5]: # Limit to 5 for the "Elsewhere" window
-        raw_title = item.find('title').text
-        link = item.find('link').text
-        
-        # Letterboxd RSS titles usually follow: "Film Name, Year - ★★★★"
-        # We can split to get the year more reliably
-        title_parts = raw_title.split(', ')
-        name = clean_title(title_parts[0])
-        year = title_parts[1].split(' - ')[0] if len(title_parts) > 1 else ""
-        rating = parse_rating(raw_title)
-
-        items.append({
-            "title": name,
-            "year": year,
-            "rating": rating,
-            "link": link
-        })
-
-    with open('feed.json', 'w') as f:
-        json.dump(items, f, indent=2)
-
-except Exception as e:
-    print(f"Error: {e}")
-    # We don't exit with error to avoid failing the Action; 
-    # the existing feed.json stays as a graceful fallback.
+      - name: Commit and Push if changed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add feed.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Letterboxd feed" && git push)
