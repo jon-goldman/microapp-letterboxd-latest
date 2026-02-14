@@ -1,5 +1,11 @@
 [
   {
+    "title": "The Truman Show",
+    "year": "1998",
+    "rating": "\u2605\u2605\u2605\u2605",
+    "link": "https://letterboxd.com/jongoldman/film/the-truman-show/"
+  },
+  {
     "title": "Coach Carter",
     "year": "2005",
     "rating": "\u2605\u2605\u2605\u2605",
@@ -22,11 +28,5 @@
     "year": "2024",
     "rating": "\u2605\u2605\u2605\u2605\u2605",
     "link": "https://letterboxd.com/jongoldman/film/water-sports-2024/"
-  },
-  {
-    "title": "As Told by a Corpse",
-    "year": "2025",
-    "rating": "\u2605\u2605\u2605\u2605",
-    "link": "https://letterboxd.com/jongoldman/film/as-told-by-a-corpse/"
   }
 ]
