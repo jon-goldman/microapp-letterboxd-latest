@@ -1,5 +1,11 @@
 [
   {
+    "title": "Charlie's Angels",
+    "year": "2000",
+    "rating": "\u2605\u2605\u2605\u2605",
+    "link": "https://letterboxd.com/jongoldman/film/charlies-angels/"
+  },
+  {
     "title": "In the Mood for Love",
     "year": "2000",
     "rating": "\u2605\u2605\u2605\u2605\u00bd",
@@ -22,11 +28,5 @@
     "year": "2026",
     "rating": "\u2605\u2605\u2605\u2605",
     "link": "https://letterboxd.com/jongoldman/film/28-years-later-the-bone-temple/"
-  },
-  {
-    "title": "Hamnet",
-    "year": "2025",
-    "rating": "\u2605\u2605\u2605\u2605\u2605",
-    "link": "https://letterboxd.com/jongoldman/film/hamnet/"
   }
 ]
