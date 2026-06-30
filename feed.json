@@ -1,5 +1,11 @@
 [
   {
+    "title": "My Neighbor Totoro",
+    "year": "1988",
+    "rating": "\u2605\u2605\u2605\u2605\u00bd",
+    "link": "https://letterboxd.com/jongoldman/film/my-neighbor-totoro/"
+  },
+  {
     "title": "Female Trouble",
     "year": "1974",
     "rating": "\u2605\u2605\u2605\u2605",
@@ -22,11 +28,5 @@
     "year": "1977",
     "rating": "\u2605\u2605\u2605\u2605\u00bd",
     "link": "https://letterboxd.com/jongoldman/film/house/"
-  },
-  {
-    "title": "The Sheep Detectives",
-    "year": "2026",
-    "rating": "\u2605\u2605\u2605\u2605",
-    "link": "https://letterboxd.com/jongoldman/film/the-sheep-detectives/"
   }
 ]
